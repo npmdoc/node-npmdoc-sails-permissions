@@ -1,17 +1,40 @@
 {
-    "buildNpmdoc":"sails-permissions",
+    "author": "kai zhu <kaizhu256@gmail.com>",
+    "buildNpmdoc": "sails-permissions",
+    "description": "api documentation for [sails-permissions (v2.2.0)](https://github.com/tjwebb/sails-permissions) [![npm package](https://img.shields.io/npm/v/npmdoc-sails-permissions.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-sails-permissions) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-sails-permissions.svg)](https://travis-ci.org/npmdoc/node-npmdoc-sails-permissions)",
     "devDependencies": {
-        "sails-permissions": "*",
         "electron-lite": "kaizhu256/node-electron-lite#alpha",
+        "sails-permissions": "*",
         "utility2": "kaizhu256/node-utility2#alpha"
     },
-    "name":"npmdoc-sails-permissions",
+    "engines": {
+        "node": ">=4.0"
+    },
+    "homepage": "https://github.com/npmdoc/node-npmdoc-sails-permissions",
+    "keywords": [
+        "documentation",
+        "sails-permissions"
+    ],
+    "license": "MIT",
+    "main": "lib.npmdoc_sails_permissions.js",
+    "name": "npmdoc-sails-permissions",
+    "nameAlias": "npmdoc_sails_permissions",
+    "nameOriginal": "npmdoc-sails-permissions",
+    "os": [
+        "darwin",
+        "linux"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/npmdoc/node-npmdoc-sails-permissions"
     },
     "scripts": {
-        "build-ci": "utility2 shReadmeTest build_ci.sh"
+        "build-ci": "utility2 shReadmeTest build_ci.sh",
+        "env": "env",
+        "heroku-postbuild": "(set -e; npm install \"kaizhu256/node-utility2#alpha\"; utility2 shDeployHeroku)",
+        "postinstall": "if [ -f npm_scripts.sh ]; then ./npm_scripts.sh postinstall; fi",
+        "start": "(set -e; export PORT=${PORT:-8080}; utility2 start test.js)",
+        "test": "(set -e; export PORT=$(utility2 shServerPortRandom); utility2 test test.js)"
     },
     "version": "0.0.1"
 }
