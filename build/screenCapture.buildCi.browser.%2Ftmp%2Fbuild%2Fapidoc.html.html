@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="https://github.com/tjwebb/sails-permissions"
-
-    >sails-permissions (v2.2.0)</a>
+    <a href="https://github.com/tjwebb/sails-permissions">sails-permissions (v2.2.0)</a>
 </h1>
 <h4>Comprehensive user permissions and entitlements system for sails.js and Waterline. Supports user authentication with passport.js, role-based permissioning, object ownership, and row-level security.</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.sails-permissions">module sails-permissions</a><ol>
 
@@ -354,14 +347,14 @@
   var hook = new Hook(sails);
   hook.loadConfig(Hook.constructor.name);
 
-  var config = _lodash2[&#x27;default&#x27;].defaults({}, Marlinspike.defaultConfig());
-  if (hook.name in sails.config) _lodash2[&#x27;default&#x27;].extend(config.marlinspike, sails.config[hook.name].marlinspike);
+  var config = _lodash2['default'].defaults({}, Marlinspike.defaultConfig());
+  if (hook.name in sails.config) _lodash2['default'].extend(config.marlinspike, sails.config[hook.name].marlinspike);
 
   return {
     name: _this.name,
     routes: hook.routes(),
     defaults: function defaults(overrides) {
-      return _lodash2[&#x27;default&#x27;].merge(config, hook.defaults(overrides));
+      return _lodash2['default'].merge(config, hook.defaults(overrides));
     },
     configure: function configure() {
       if (config.marlinspike.services) hook.loadServices();
@@ -370,12 +363,12 @@
       if (config.marlinspike.policies) hook.loadPolicies();
 
       hook.configure();
-      sails.emit(&#x27;hook:&#x27; + hook.name + &#x27;:configured&#x27;);
+      sails.emit('hook:' + hook.name + ':configured');
     },
     initialize: function initialize(next) {
 
       hook.initialize(function () {
-        sails.emit(&#x27;hook:&#x27; + hook.name + &#x27;:initialized&#x27;);
+        sails.emit('hook:' + hook.name + ':initialized');
         next();
       });
     }
@@ -447,7 +440,7 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">addUsersToRole = function (usernames, rolename) {
   if (_.isEmpty(usernames)) {
-    return Promise.reject(new Error(&#x27;One or more usernames must be provided&#x27;));
+    return Promise.reject(new Error('One or more usernames must be provided'));
   }
 
   if (!_.isArray(usernames)) {
@@ -456,11 +449,11 @@
 
   return Role.findOne({
     name: rolename
-  }).populate(&#x27;users&#x27;).then(function(role) {
+  }).populate('users').then(function(role) {
     return User.find({
       username: usernames
     }).then(function(users) {
-      role.users.add(_.pluck(users, &#x27;id&#x27;));
+      role.users.add(_.pluck(users, 'id'));
       return role.save();
     });
   });
@@ -533,22 +526,22 @@
     <li>description and source-code<pre class="apidocCodePre">findModelPermissions = function (options) {
   var action = PermissionService.getMethod(options.method);
 
-  //console.log(&#x27;findModelPermissions options&#x27;, options)
-  //console.log(&#x27;findModelPermissions action&#x27;, action)
+  //console.log('findModelPermissions options', options)
+  //console.log('findModelPermissions action', action)
 
   return User.findOne(options.user.id)
-    .populate(&#x27;roles&#x27;)
+    .populate('roles')
     .then(function(user) {
       var permissionCriteria = {
         model: options.model.id,
         action: action,
         or: [
-          { role: _.pluck(user.roles, &#x27;id&#x27;) },
+          { role: _.pluck(user.roles, 'id') },
           { user: user.id }
         ]
       };
 
-      return Permission.find(permissionCriteria).populate(&#x27;criteria&#x27;)
+      return Permission.find(permissionCriteria).populate('criteria')
     });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
@@ -561,8 +554,8 @@
   PermissionService
     .<span class="apidocCodeKeywordSpan">findModelPermissions</span>(options)
     .then(function (permissions) {
-sails.log.silly(&#x27;PermissionPolicy:&#x27;, permissions.length, &#x27;permissions grant&#x27;,
-    req.method, &#x27;on&#x27;, req.model.name, &#x27;for&#x27;, req.user.username);
+sails.log.silly('PermissionPolicy:', permissions.length, 'permissions grant',
+    req.method, 'on', req.model.name, 'for', req.user.username);
 
 if (!permissions || permissions.length === 0) {
   return res.send(403, { error: PermissionService.getErrorMessage(options) });
@@ -593,8 +586,8 @@ if (!permissions || permissions.length === 0) {
       sails.hooks.blueprints.middleware.find(req, {
         ok: resolve,
         serverError: reject,
-        // this isn&#x27;t perfect, since it returns a 500 error instead of a 404 error
-        // but it is better than crashing the app when a record doesn&#x27;t exist
+        // this isn't perfect, since it returns a 500 error instead of a 404 error
+        // but it is better than crashing the app when a record doesn't exist
         notFound: reject
       });
     })
@@ -617,7 +610,7 @@ bindResponsePolicy(req, res, criteria);
     .then(function(objects) {
 
 // attributes are not important for a delete request
-if (action === &#x27;delete&#x27;) {
+if (action === 'delete') {
   body = undefined;
 }
 ...</pre></li>
@@ -635,15 +628,15 @@ if (action === &#x27;delete&#x27;) {
     <li>description and source-code<pre class="apidocCodePre">getErrorMessage = function (options) {
   var user = options.user.email || options.user.username
   return [
-    &#x27;User&#x27;, user, &#x27;is not permitted to&#x27;, options.method, options.model.name
-  ].join(&#x27; &#x27;);
+    'User', user, 'is not permitted to', options.method, options.model.name
+  ].join(' ');
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
   PermissionService
     .findModelPermissions(options)
     .then(function (permissions) {
-      sails.log.silly(&#x27;PermissionPolicy:&#x27;, permissions.length, &#x27;permissions grant&#x27;,
-          req.method, &#x27;on&#x27;, req.model.name, &#x27;for&#x27;, req.user.username);
+      sails.log.silly('PermissionPolicy:', permissions.length, 'permissions grant',
+          req.method, 'on', req.model.name, 'for', req.user.username);
 
       if (!permissions || permissions.length === 0) {
         return res.send(403, { error: PermissionService.<span class="apidocCodeKeywordSpan">getErrorMessage</span>(options) });
@@ -681,8 +674,8 @@ var action = PermissionService.<span class="apidocCodeKeywordSpan">getMethod</sp
 
 var body = req.body || req.query;
 
-// if we are creating, we don&#x27;t need to query the db, just check the where clause vs the passed in data
-if (action === &#x27;create&#x27;) {
+// if we are creating, we don't need to query the db, just check the where clause vs the passed in data
+if (action === 'create') {
   if (!PermissionService.hasPassingCriteria(body, permissions, body)) {
     return res.send(403, {
 ...</pre></li>
@@ -713,14 +706,14 @@ if (action === &#x27;create&#x27;) {
     return Promise.all([findRole, findUser, Model.findOne({
         name: permission.model
       })])
-      .then(([ role, user, model]) =&#x3e; {
+      .then(([ role, user, model]) =&gt; {
         permission.model = model.id;
-        if (role &#x26;&#x26; role.id) {
+        if (role &amp;&amp; role.id) {
           permission.role = role.id;
-        } else if (user &#x26;&#x26; user.id) {
+        } else if (user &amp;&amp; user.id) {
           permission.user = user.id;
         } else {
-          return Promise.reject(new Error(&#x27;no role or user specified&#x27;));
+          return Promise.reject(new Error('no role or user specified'));
         }
       });
   }));
@@ -751,7 +744,7 @@ if (action === &#x27;create&#x27;) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
     .then(function(objects) {
-  // PermissionService.isAllowedToPerformAction checks if the user has &#x27;user&#x27; based permissions (vs role or owner based
+  // PermissionService.isAllowedToPerformAction checks if the user has 'user' based permissions (vs role or owner based
  permissions)
 return PermissionService.isAllowedToPerformAction(objects, req.user, action, ModelService.getTargetModelName(req), req.body)
   .then(function(hasUserPermissions) {
@@ -760,7 +753,7 @@ return PermissionService.isAllowedToPerformAction(objects, req.user, action, Mod
     }
     if (PermissionService.<span class="apidocCodeKeywordSpan">hasForeignObjects</span>(objects, req.user)) {
       return res.send(403, {
-        error: &#x27;Cannot perform action [&#x27; + action + &#x27;] on foreign object&#x27;
+        error: 'Cannot perform action [' + action + '] on foreign object'
       });
     }
     next();
@@ -810,7 +803,7 @@ return PermissionService.isAllowedToPerformAction(objects, req.user, action, Mod
       else {
           memo = memo.concat(perm.criteria);
       }
-      if (perm.relation === &#x27;owner&#x27;) {
+      if (perm.relation === 'owner') {
           perm.criteria.forEach(function (criteria) {
               criteria.owner = true;
           });
@@ -840,7 +833,7 @@ return PermissionService.isAllowedToPerformAction(objects, req.user, action, Mod
       if (criteria.owner) {
         hasOwnership = !PermissionService.isForeignObject(user)(obj);
       }
-      return match.length === 1 &#x26;&#x26; !hasUnpermittedAttributes &#x26;&#x26; hasOwnership;
+      return match.length === 1 &amp;&amp; !hasUnpermittedAttributes &amp;&amp; hasOwnership;
     });
   });
 
@@ -851,11 +844,11 @@ var action = PermissionService.getMethod(req.method);
 
 var body = req.body || req.query;
 
-// if we are creating, we don&#x27;t need to query the db, just check the where clause vs the passed in data
-if (action === &#x27;create&#x27;) {
+// if we are creating, we don't need to query the db, just check the where clause vs the passed in data
+if (action === 'create') {
   if (!PermissionService.<span class="apidocCodeKeywordSpan">hasPassingCriteria</span>(body, permissions, body)) {
     return res.send(403, {
-      error: &#x27;Can\&#x27;t create this object, because of failing where clause&#x27;
+      error: 'Can\'t create this object, because of failing where clause'
     });
   }
   return next();
@@ -893,7 +886,7 @@ role based
     if (criteria.owner) {
       hasOwnership = !PermissionService.isForeignObject(user)(obj);
     }
-    return match.length === 1 &#x26;&#x26; !hasUnpermittedAttributes &#x26;&#x26; hasOwnership;
+    return match.length === 1 &amp;&amp; !hasUnpermittedAttributes &amp;&amp; hasOwnership;
   });
 });
 ...</pre></li>
@@ -921,12 +914,12 @@ role based
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
   req.query.owner = req.user.id;
-  _.isObject(req.body) &#x26;&#x26; (req.body.owner = req.user.id);
+  _.isObject(req.body) &amp;&amp; (req.body.owner = req.user.id);
 }
 
 PermissionService.findTargetObjects(req)
   .then(function(objects) {
-      // PermissionService.isAllowedToPerformAction checks if the user has &#x27;user&#x27; based permissions (vs role or owner
+      // PermissionService.isAllowedToPerformAction checks if the user has 'user' based permissions (vs role or owner
 based permissions)
     return PermissionService.<span class="apidocCodeKeywordSpan">isAllowedToPerformAction</span>(objects, req.user, action, ModelService
 .getTargetModelName(req), req.body)
@@ -936,7 +929,7 @@ based permissions)
         }
         if (PermissionService.hasForeignObjects(objects, req.user)) {
           return res.send(403, {
-            error: &#x27;Cannot perform action [&#x27; + action + &#x27;] on foreign object&#x27;
+            error: 'Cannot perform action [' + action + '] on foreign object'
 ...</pre></li>
     </ul>
 
@@ -958,11 +951,11 @@ based permissions)
        return Permission.find({
           model: model.id,
           action: action,
-          relation: &#x27;user&#x27;,
+          relation: 'user',
           user: user
-        }).populate(&#x27;criteria&#x27;);
+        }).populate('criteria');
       }).then(function(permission) {
-        if (permission.length &#x3e; 0 &#x26;&#x26; PermissionService.hasPassingCriteria(obj, permission, body)) {
+        if (permission.length &gt; 0 &amp;&amp; PermissionService.hasPassingCriteria(obj, permission, body)) {
           resolve(true);
         } else {
           resolve(false);
@@ -1002,8 +995,8 @@ isAllowedToPerformAction: function(objects, user, action, model, body) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">isForeignObject = function (owner) {
   return function(object) {
-    //sails.log.verbose(&#x27;object&#x27;, object);
-    //sails.log.verbose(&#x27;object.owner: &#x27;, object.owner, &#x27;, owner:&#x27;, owner);
+    //sails.log.verbose('object', object);
+    //sails.log.verbose('object.owner: ', object.owner, ', owner:', owner);
     return object.owner !== owner;
   };
 }</pre></li>
@@ -1037,7 +1030,7 @@ hasForeignObjects: function(objects, user) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">removeUsersFromRole = function (usernames, rolename) {
   if (_.isEmpty(usernames)) {
-    return Promise.reject(new Error(&#x27;One or more usernames must be provided&#x27;));
+    return Promise.reject(new Error('One or more usernames must be provided'));
   }
 
   if (!_.isArray(usernames)) {
@@ -1047,12 +1040,12 @@ hasForeignObjects: function(objects, user) {
   return Role.findOne({
       name: rolename
     })
-    .populate(&#x27;users&#x27;)
+    .populate('users')
     .then(function(role) {
       return User.find({
         username: usernames
       }, {
-        select: [&#x27;id&#x27;]
+        select: ['id']
       }).then(function(users) {
         users.map(function(user) {
           role.users.remove(user.id);
@@ -1084,7 +1077,7 @@ hasForeignObjects: function(objects, user) {
     name: options.model
   })]);
 
-  ok = ok.then(([ role, user, model ]) =&#x3e; {
+  ok = ok.then(([ role, user, model ]) =&gt; {
 
     var query = {
       model: model.id,
@@ -1092,12 +1085,12 @@ hasForeignObjects: function(objects, user) {
       relation: options.relation
     };
 
-    if (role &#x26;&#x26; role.id) {
+    if (role &amp;&amp; role.id) {
       query.role = role.id;
-    } else if (user &#x26;&#x26; user.id) {
+    } else if (user &amp;&amp; user.id) {
       query.user = user.id;
     } else {
-      return Promise.reject(new Error(&#x27;You must provide either a user or role to revoke the permission from&#x27;));
+      return Promise.reject(new Error('You must provide either a user or role to revoke the permission from'));
     }
 
     return Permission.destroy(query);
@@ -1193,3 +1186,4 @@ hasForeignObjects: function(objects, user) {
     ]
 </div>
 </div>
+</body></html>
